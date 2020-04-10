@@ -24,9 +24,18 @@ def proof_of_work(last_proof):
 
     print("Searching for next proof")
     proof = 0
-    #  TODO: Your code here
+    # Get hash of last proof
+    last_hash = f'{last_proof}'.encode()
+    # Create hash object
+    hash_obj = hashlib.sha256(last_hash).hexdigest()
 
-    print("Proof found: " + str(proof) + " in " + str(timer() - start))
+    # Find new proof
+    while not valid_proof(hash_obj, proof):
+        # proof = random.randint(-100000000, 1000000000)
+        # random.random() seems to be much quicker
+        proof = random.random()
+
+    print("Proof found: " + str(proof)+ " in " + str(timer() - start))
     return proof
 
 
@@ -39,8 +48,9 @@ def valid_proof(last_hash, proof):
     IE:  last_hash: ...AE912345, new hash 12345E88...
     """
 
-    # TODO: Your code here!
-    pass
+    guess = f'{proof}'.encode()
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    return guess_hash[:5] == last_hash[-5:]
 
 
 if __name__ == '__main__':
@@ -61,6 +71,7 @@ if __name__ == '__main__':
     if id == 'NONAME\n':
         print("ERROR: You must change your name in `my_id.txt`!")
         exit()
+ 
     # Run forever until interrupted
     while True:
         # Get the last proof from the server
