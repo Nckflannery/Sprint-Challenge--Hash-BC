@@ -33,7 +33,7 @@ def proof_of_work(last_proof):
     while not valid_proof(hash_obj, proof):
         # proof = random.randint(-100000000, 1000000000)
         # random.random() seems to be much quicker
-        proof = random.random()*random.choice([-1, 1])
+        proof = random.random()
 
     print("Proof found: " + str(proof)+ " in " + str(timer() - start))
     return proof
